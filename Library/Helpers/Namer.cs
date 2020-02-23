@@ -26,7 +26,7 @@ namespace Visitor
             var parentExpression = memberExpression.Expression;
             while (parentExpression != null && parentExpression is MemberExpression parentMemberExpression)
             {
-                qualifiedNames.Push(parentMemberExpression.Member.Name);
+                qualifiedNames.Push(GetNameOf(parentMemberExpression.Member));
                 parentExpression = parentMemberExpression.Expression;
             }
 
