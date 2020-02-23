@@ -13,7 +13,7 @@ namespace SoqlTests
         public void GetMemberQualifiedNameSimple()
         {
             // Arrange
-            var expected = "MyBoolProperty";
+            var expected = "MyBoolProperty__c";
             Expression<Func<TestClass, bool>> expression = (x) => x.MyBoolProperty;
 
             // Act
@@ -27,7 +27,7 @@ namespace SoqlTests
         public void GetMemberQualifiedNameTestNested()
         {
             // Arrange
-            var expected = "MyChild.MyBoolProperty";
+            var expected = "MyChild__r.MyBoolProperty__c";
             Expression<Func<TestClass, bool>> expression = (x) => x.MyChild.MyBoolProperty;
 
             // Act
@@ -41,7 +41,7 @@ namespace SoqlTests
         public void GetMemberQualifiedNameTestDoubleNested()
         {
             // Arrange
-            var expected = "MyChild.MyChild.MyBoolProperty";
+            var expected = "MyChild__r.MyChild__r.MyBoolProperty__c";
             Expression<Func<TestClass, bool>> expression = (x) => x.MyChild.MyChild.MyBoolProperty;
 
             // Act

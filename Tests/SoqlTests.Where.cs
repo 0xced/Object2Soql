@@ -60,7 +60,7 @@ namespace SoqlTests
         public void SimpleDateComparision()
         {
             // Arrange
-            var expected = SetUpExpectedWhere("MyDateTimeProperty = 2020-02-12T12-14-41Z");
+            var expected = SetUpExpectedWhere("MyDateTimeProperty__c = 2020-02-12T12-14-41Z");
 
             // Act
             var actual = Soql
@@ -198,7 +198,7 @@ namespace SoqlTests
         public void AndCondition()
         {
             // Arrange
-            var expected = SetUpExpectedWhere(@"(MyChild.MyIntProperty = 22 AND MyStringProperty != null)");
+            var expected = SetUpExpectedWhere(@"(MyChild__r.MyIntProperty = 22 AND MyStringProperty != null)");
 
             // Act
             var actual = Soql
@@ -215,7 +215,7 @@ namespace SoqlTests
         public void OrCondition()
         {
             // Arrange
-            var expected = SetUpExpectedWhere(@"(MyChild.MyIntProperty = 22 OR MyChild.MyChild.MyEnumProperty = 'CaseC')");
+            var expected = SetUpExpectedWhere(@"(MyChild__r.MyIntProperty = 22 OR MyChild__r.MyChild__r.MyEnumProperty = 'CaseC')");
 
             // Act
             var actual = Soql
@@ -232,7 +232,7 @@ namespace SoqlTests
         public void MultipleCondition()
         {
             // Arrange
-            var expected = SetUpExpectedWhere(@"(MyChild.MyIntProperty = 22 OR (MyChild.MyChild.MyEnumProperty = 'CaseC' AND MyEnumProperty = 'Case A'))");
+            var expected = SetUpExpectedWhere(@"(MyChild__r.MyIntProperty = 22 OR (MyChild__r.MyChild__r.MyEnumProperty = 'CaseC' AND MyEnumProperty = 'Case A'))");
 
             // Act
             var actual = Soql

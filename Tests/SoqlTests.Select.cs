@@ -18,7 +18,7 @@ namespace SoqlTests
         public void SingleBoolMember()
         {
             // Arrange
-            var expected = SetUpExpectedSelect("MyBoolProperty");
+            var expected = SetUpExpectedSelect("MyBoolProperty__c");
 
             // Act
             var actual = Soql
@@ -34,7 +34,7 @@ namespace SoqlTests
         public void SingleDateMember()
         {
             // Arrange
-            var expected = SetUpExpectedSelect("MyChild.MyBoolProperty");
+            var expected = SetUpExpectedSelect("MyChild__r.MyBoolProperty__c");
 
             // Act
             var actual = Soql
@@ -50,7 +50,7 @@ namespace SoqlTests
         public void SingleNestedMember()
         {
             // Arrange
-            var expected = SetUpExpectedSelect("MyChild.MyBoolProperty");
+            var expected = SetUpExpectedSelect("MyChild__r.MyBoolProperty__c");
 
             // Act
             var actual = Soql
@@ -66,7 +66,7 @@ namespace SoqlTests
         public void MultipleMember()
         {
             // Arrange
-            var expected = SetUpExpectedSelect("MyDateTimeProperty, MyBoolProperty");
+            var expected = SetUpExpectedSelect("MyDateTimeProperty__c, MyBoolProperty__c");
 
             // Act
             var actual = Soql
@@ -82,7 +82,7 @@ namespace SoqlTests
         public void MultipleMemberWithNested()
         {
             // Arrange
-            var expected = SetUpExpectedSelect("MyDateTimeProperty, MyChild.MyBoolProperty");
+            var expected = SetUpExpectedSelect("MyDateTimeProperty__c, MyChild__r.MyBoolProperty__c");
 
             // Act
             var actual = Soql

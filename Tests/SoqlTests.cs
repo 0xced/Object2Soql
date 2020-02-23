@@ -10,7 +10,7 @@ namespace SoqlTests
         public void TakeTest()
         {
             // Arrange
-            var expected = "SELECT MyBoolProperty FROM TestClass__c LIMIT 2";
+            var expected = "SELECT MyBoolProperty__c FROM TestClass__c LIMIT 2";
 
             // Act
             var actual = Soql
@@ -27,7 +27,7 @@ namespace SoqlTests
         public void SkipTest()
         {
             // Arrange
-            var expected = "SELECT MyBoolProperty FROM TestClass__c LIMIT 2 OFFSET 3";
+            var expected = "SELECT MyBoolProperty__c FROM TestClass__c LIMIT 2 OFFSET 3";
 
             // Act
             var actual = Soql
@@ -45,7 +45,7 @@ namespace SoqlTests
         public void SkipWithoutTakeTest()
         {
             // Arrange
-            var expected = "SELECT MyBoolProperty FROM TestClass__c";
+            var expected = "SELECT MyBoolProperty__c FROM TestClass__c";
 
             // Act
             var actual = Soql
@@ -70,7 +70,7 @@ namespace SoqlTests
         public void OrderByTest()
         {
             // Arrange
-            var expected = "SELECT MyBoolProperty FROM TestClass__c ORDER BY MyDateTimeProperty ASCENDING NULLS FIRST";
+            var expected = "SELECT MyBoolProperty__c FROM TestClass__c ORDER BY MyDateTimeProperty__c ASCENDING NULLS FIRST";
 
             // Act
             var actual = Soql
@@ -87,7 +87,7 @@ namespace SoqlTests
         public void OrderByDescendingTest()
         {
             // Arrange
-            var expected = "SELECT MyBoolProperty FROM TestClass__c ORDER BY MyDateTimeProperty DESCENDING NULLS FIRST";
+            var expected = "SELECT MyBoolProperty__c FROM TestClass__c ORDER BY MyDateTimeProperty__c DESCENDING NULLS FIRST";
 
             // Act
             var actual = Soql
@@ -104,7 +104,7 @@ namespace SoqlTests
         public void OrderByNullLastTest()
         {
             // Arrange
-            var expected = "SELECT MyBoolProperty FROM TestClass__c ORDER BY MyDateTimeProperty ASCENDING NULLS LAST";
+            var expected = "SELECT MyBoolProperty__c FROM TestClass__c ORDER BY MyDateTimeProperty__c ASCENDING NULLS LAST";
 
             // Act
             var actual = Soql
@@ -121,7 +121,7 @@ namespace SoqlTests
         public void OrderByNullDescendingLastTest()
         {
             // Arrange
-            var expected = "SELECT MyBoolProperty FROM TestClass__c ORDER BY MyDateTimeProperty DESCENDING NULLS LAST";
+            var expected = "SELECT MyBoolProperty__c FROM TestClass__c ORDER BY MyDateTimeProperty__c DESCENDING NULLS LAST";
 
             // Act
             var actual = Soql
@@ -138,7 +138,7 @@ namespace SoqlTests
         public void OrderByThenByTest()
         {
             // Arrange
-            var expected = "SELECT MyBoolProperty FROM TestClass__c ORDER BY MyDateTimeProperty, MyIntProperty, MyStringProperty ASCENDING NULLS FIRST";
+            var expected = "SELECT MyBoolProperty__c FROM TestClass__c ORDER BY MyDateTimeProperty__c, MyIntProperty, MyStringProperty ASCENDING NULLS FIRST";
 
             // Act
             var actual = Soql
