@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Visitor
+namespace Object2Soql.Entities
 {
     [Flags]
     public enum OrderByOption

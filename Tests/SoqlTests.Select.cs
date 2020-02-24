@@ -1,9 +1,9 @@
-﻿using SoqlTests.Entities;
-using System.Globalization;
-using Visitor;
+﻿using System.Globalization;
 using Xunit;
+using Object2Soql.Entities;
+using Object2Soql.Tests.Entities;
 
-namespace SoqlTests
+namespace Object2Soql.Tests
 {
     public partial class SoqlTests
     {

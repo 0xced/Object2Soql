@@ -1,8 +1,8 @@
-﻿using SoqlLibrary.Entities;
+﻿using Object2Soql.Entities;
 using System;
 using System.Text.Json.Serialization;
 
-namespace SoqlTests
+namespace Object2Soql.Tests.Entities
 {
     [SalesForce("TestClass__c")]
     public class TestClass

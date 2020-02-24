@@ -1,12 +1,12 @@
-﻿using SOQL;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq.Expressions;
 using System.Text;
 using System.Linq;
-using SoqlTests.Entities;
+using Object2Soql.Entities;
+using Object2Soql.Visitors;
+using Object2Soql.Helpers;
 
-namespace Visitor
+namespace Object2Soql
 {
     public static class Soql
     {

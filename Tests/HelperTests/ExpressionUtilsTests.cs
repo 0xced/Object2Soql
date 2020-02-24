@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Object2Soql.Helpers;
+using Object2Soql.Tests.Entities;
+using System;
 using System.Linq.Expressions;
-using System.Text;
-using Visitor;
 using Xunit;
 
-namespace SoqlTests
+namespace Object2Soql.Tests.HelperTests
 {
     public class ExpressionUtilsTests
     {

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
-namespace SoqlTests.Entities
+namespace Object2Soql.Entities
 {
     public class IlegalExpressionException:Exception
     {
@@ -13,6 +11,5 @@ namespace SoqlTests.Entities
         {
             ExpressionType = expressionType;
         }
-
     }
 }

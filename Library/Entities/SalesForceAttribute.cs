@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SoqlLibrary.Entities
+namespace Object2Soql.Entities
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class SalesForceAttribute:Attribute

@@ -1,13 +1,13 @@
-﻿using SoqlTests.Entities;
+﻿using Object2Soql.Entities;
+using Object2Soql.Tests.Entities;
 using System;
 using System.Globalization;
 using System.Linq;
-using Visitor;
 using Xunit;
 
 #pragma warning disable CA1307 // Specify StringComparison
 
-namespace SoqlTests
+namespace Object2Soql.Tests
 {
     
     public partial class SoqlTests

@@ -1,12 +1,11 @@
-﻿using SoqlLibrary.Entities;
+﻿using Object2Soql.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 using System.Text.Json.Serialization;
 
-namespace Visitor
+namespace Object2Soql.Helpers
 {
     public static class Namer
     {

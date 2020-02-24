@@ -1,8 +1,9 @@
-﻿using System;
-using Visitor;
+﻿using Object2Soql.Entities;
+using Object2Soql.Tests.Entities;
+using System;
 using Xunit;
 
-namespace SoqlTests
+namespace Object2Soql.Tests
 {
     public partial class SoqlTests
     {

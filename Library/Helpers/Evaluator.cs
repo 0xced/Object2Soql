@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace SOQL
+namespace Object2Soql.Helpers
 {
     public static class Evaluator
     {

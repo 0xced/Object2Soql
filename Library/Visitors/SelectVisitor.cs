@@ -1,15 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using Object2Soql.Entities;
+using Object2Soql.Helpers;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Runtime.Serialization;
-using Visitor;
-using SoqlTests.Entities;
 
-namespace SOQL
+
+namespace Object2Soql.Visitors
 {
     public static class SelectVisitor
     {

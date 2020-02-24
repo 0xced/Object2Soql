@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace SoqlTests
+namespace Object2Soql.Tests.Entities
 {
     public enum TestEnum
     {
