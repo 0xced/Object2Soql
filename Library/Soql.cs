@@ -135,7 +135,7 @@ namespace Object2Soql
                 .Append("SELECT ")
                 .Append(SelectExpression)
                 .Append(" FROM ")
-                .Append(Namer.GetNameOf(typeof(TSource)));
+                .Append(Reflection.GetNameOf(typeof(TSource)));
 
             if (!string.IsNullOrEmpty(ConditionExpression))
             {
@@ -203,8 +203,8 @@ namespace Object2Soql
 
             return exp.Body switch
             {
-                UnaryExpression unaryExpression when unaryExpression.NodeType == ExpressionType.Convert => Namer.GetMemberQualifiedName(unaryExpression.Operand as MemberExpression),
-                MemberExpression memberExpression => Namer.GetMemberQualifiedName(memberExpression),
+                UnaryExpression unaryExpression when unaryExpression.NodeType == ExpressionType.Convert => Reflection.GetMemberQualifiedName(unaryExpression.Operand as MemberExpression),
+                MemberExpression memberExpression => Reflection.GetMemberQualifiedName(memberExpression),
                 _ => throw new IlegalExpressionException(exp.Body.NodeType),
             };
         }

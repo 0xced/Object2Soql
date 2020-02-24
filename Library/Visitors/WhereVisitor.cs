@@ -111,7 +111,7 @@ namespace Object2Soql.Visitors
 
         private static string VisitMemberAccess(MemberExpression memberExpression)
         {
-            return Namer.GetMemberQualifiedName(memberExpression);
+            return Reflection.GetMemberQualifiedName(memberExpression);
         }
 
         private static string VisitMethodCall(MethodCallExpression methodCallExpression)

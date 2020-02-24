@@ -19,7 +19,7 @@ namespace Object2Soql.Visitors
 
             return exp.NodeType switch
             {
-                ExpressionType.MemberAccess => Namer.GetMemberQualifiedName(exp as MemberExpression),
+                ExpressionType.MemberAccess => Reflection.GetMemberQualifiedName(exp as MemberExpression),
                 ExpressionType.New => VisitNew(exp as NewExpression),
                 ExpressionType.Convert => VisitConvert(exp as UnaryExpression),
                 _ => throw new IlegalExpressionException(exp.NodeType),
@@ -38,7 +38,7 @@ namespace Object2Soql.Visitors
             {
                 if(parameter is MemberExpression memberExpression)
                 {
-                    parameters.Add(Namer.GetMemberQualifiedName(memberExpression));
+                    parameters.Add(Reflection.GetMemberQualifiedName(memberExpression));
                 }
             }
 
