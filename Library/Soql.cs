@@ -5,6 +5,7 @@ using System.Linq;
 using Object2Soql.Entities;
 using Object2Soql.Visitors;
 using Object2Soql.Helpers;
+using System.Collections.Generic;
 
 namespace Object2Soql
 {
@@ -17,6 +18,8 @@ namespace Object2Soql
 
     public class Soql<TSource>
     {
+        public static readonly string SELECT_FIELDS_SEPARATOR = ", ";
+
         /// <summary>
         /// WHERE clauses cannot exceed 4,000 characters.
         /// </summary>
@@ -35,13 +38,18 @@ namespace Object2Soql
         /// </summary>
         public const int MAX_OFFSET = 2_000;
         public string ConditionExpression { get; private set; }
-        public string SelectExpression { get; private set; }
+        public List<string> SelectExpression { get; }
 
         public string OrderByExpression { get; private set; }
         public OrderByOption OrderByFlags { get; private set; }
         public int? Offset { get; private set; }
         public int? Limit { get; private set; }
         public string GroupByExpression { get; private set; }
+
+        public Soql()
+        {
+            SelectExpression = new List<string>();
+        }
 
         public Soql<TSource> Where(Expression<Func<TSource, bool>> exp)
         {
@@ -124,22 +132,34 @@ namespace Object2Soql
 
         public Soql<TSource> Select(Expression<Func<TSource, object>> exp)
         {
-            this.SelectExpression = SelectVisitor.Visit(exp.Body);
+            this.SelectExpression.AddRange(SelectVisitor.Visit(exp.Body));
             return this;
         }
+
+        public Soql<TSource> Include<TChild>(Expression<Func<TSource, TChild>> exp) where TChild: class
+        {
+            if (!SelectExpression.Any())
+            {
+                SelectExpression.AddRange(Reflection.Describe(typeof(TSource)));
+            }
+
+            var child = SimpleMemberVistor(exp);
+            this.SelectExpression.AddRange(Reflection.Describe(exp.Body.Type).Select(x => $"{child}.{x}"));
+            return this;
+        }
+
         public string Build()
         {
             var query = new StringBuilder();
 
-            if (string.IsNullOrEmpty(SelectExpression))
+            if (!SelectExpression.Any())
             {
-                var fields = Reflection.Describe<TSource>();
-                SelectExpression = string.Join(SelectVisitor.SELECT_FIELDS_SEPARATOR, fields);
+                SelectExpression.AddRange(Reflection.Describe(typeof(TSource)));
             }
 
             query
                 .Append("SELECT ")
-                .Append(SelectExpression)
+                .Append(string.Join(SELECT_FIELDS_SEPARATOR, SelectExpression.Distinct()))
                 .Append(" FROM ")
                 .Append(Reflection.GetNameOf(typeof(TSource)));
 
@@ -200,7 +220,7 @@ namespace Object2Soql
             return query.ToString();
         }
 
-        private string SimpleMemberVistor(Expression<Func<TSource, object>> exp)
+        private string SimpleMemberVistor<TValue>(Expression<Func<TSource, TValue>> exp)
         {
             if(exp == null)
             {

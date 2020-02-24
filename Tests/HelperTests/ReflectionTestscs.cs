@@ -24,7 +24,7 @@ namespace SoqlTests.HelperTests
             };
 
             // Act
-            var actual = Reflection.Describe<TestClass>();
+            var actual = Reflection.Describe(typeof(TestClass));
 
             // Assert
             Assert.Equal(expected, actual);

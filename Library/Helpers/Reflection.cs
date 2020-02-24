@@ -31,10 +31,10 @@ namespace Object2Soql.Helpers
             return string.Join(QUALIFIED_NAME_SEPARATOR, qualifiedNames);
         }
 
-        public static IEnumerable<string> Describe<TObject>()
+        public static IEnumerable<string> Describe(Type type)
         {
             var fields = new List<string>();
-            foreach(var property in typeof(TObject).GetProperties())
+            foreach(var property in type.GetProperties())
             {
                 if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
                 {

@@ -115,7 +115,39 @@ namespace Object2Soql.Tests
 
             // Assert
             Assert.Equal(expected, actual);
+        }
 
+        [Fact]
+        public void IncludeWithNoSelectTest()
+        {
+            // Arrange
+            var expected = SetUpExpectedSelect("MyIntProperty, MyStringProperty, MyBoolProperty__c, MyDateTimeProperty__c, MyDateTimeOffsetProperty, MyEnumProperty, MyChild__r.MyChild__r.MyIntProperty, MyChild__r.MyChild__r.MyStringProperty, MyChild__r.MyChild__r.MyBoolProperty__c, MyChild__r.MyChild__r.MyDateTimeProperty__c, MyChild__r.MyChild__r.MyDateTimeOffsetProperty, MyChild__r.MyChild__r.MyEnumProperty");
+
+            // Act 
+            var actual = Soql
+                .From<TestClass>()
+                .Include(x => x.MyChild.MyChild)
+                .Build();
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void IncludeWithSelectTest()
+        {
+            // Arrange
+            var expected = SetUpExpectedSelect("MyBoolProperty__c, MyChild__r.MyChild__r.MyIntProperty, MyChild__r.MyChild__r.MyStringProperty, MyChild__r.MyChild__r.MyBoolProperty__c, MyChild__r.MyChild__r.MyDateTimeProperty__c, MyChild__r.MyChild__r.MyDateTimeOffsetProperty, MyChild__r.MyChild__r.MyEnumProperty");
+
+            // Act 
+            var actual = Soql
+                .From<TestClass>()
+                .Select(x => x.MyBoolProperty)
+                .Include(x => x.MyChild.MyChild)
+                .Build();
+
+            // Assert
+            Assert.Equal(expected, actual);
         }
     }
 }
