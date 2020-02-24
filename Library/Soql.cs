@@ -131,6 +131,12 @@ namespace Object2Soql
         {
             var query = new StringBuilder();
 
+            if (string.IsNullOrEmpty(SelectExpression))
+            {
+                var fields = Reflection.Describe<TSource>();
+                SelectExpression = string.Join(SelectVisitor.SELECT_FIELDS_SEPARATOR, fields);
+            }
+
             query
                 .Append("SELECT ")
                 .Append(SelectExpression)

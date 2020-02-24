@@ -101,5 +101,21 @@ namespace Object2Soql.Tests
             // Act and Assert
             Assert.Throws<IlegalExpressionException>(() => Soql.From<TestClass>().Select((x) => x.MyBoolProperty == x.MyChild.MyBoolProperty ));
         }
+
+        [Fact]
+        public void NoSelectTest()
+        {
+            // Arrange
+            var expected = SetUpExpectedSelect("MyIntProperty, MyStringProperty, MyBoolProperty__c, MyDateTimeProperty__c, MyDateTimeOffsetProperty, MyEnumProperty");
+
+            // Act 
+            var actual = Soql
+                .From<TestClass>()
+                .Build();
+
+            // Assert
+            Assert.Equal(expected, actual);
+
+        }
     }
 }

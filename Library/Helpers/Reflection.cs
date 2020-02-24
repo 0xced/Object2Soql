@@ -31,6 +31,22 @@ namespace Object2Soql.Helpers
             return string.Join(QUALIFIED_NAME_SEPARATOR, qualifiedNames);
         }
 
+        public static IEnumerable<string> Describe<TObject>()
+        {
+            var fields = new List<string>();
+            foreach(var property in typeof(TObject).GetProperties())
+            {
+                if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
+                {
+                    continue;
+                }
+
+                fields.Add(GetNameOf(property));
+            }
+
+            return fields;
+        }
+
         public static string GetNameOf(MemberInfo member)
         {
             var jsonAttr = member.GetCustomAttribute<JsonPropertyNameAttribute>();
