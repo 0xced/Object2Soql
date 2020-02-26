@@ -93,24 +93,27 @@ namespace Object2Soql.Helpers
                 return this.candidates;
             }
 
-            public override Expression Visit(Expression expression)
+            public override Expression? Visit(Expression? expression)
             {
-                bool saveCannotBeEvaluated = this.cannotBeEvaluated;
-                this.cannotBeEvaluated = false;
-                base.Visit(expression);
-                if (!this.cannotBeEvaluated)
+                if(expression != null)
                 {
-                    if (this.fnCanBeEvaluated(expression))
+                    bool saveCannotBeEvaluated = this.cannotBeEvaluated;
+                    this.cannotBeEvaluated = false;
+                    base.Visit(expression);
+                    if (!this.cannotBeEvaluated)
                     {
-                        this.candidates.Add(expression);
+                        if (this.fnCanBeEvaluated(expression))
+                        {
+                            this.candidates.Add(expression);
+                        }
+                        else
+                        {
+                            this.cannotBeEvaluated = true;
+                        }
                     }
-                    else
-                    {
-                        this.cannotBeEvaluated = true;
-                    }
+                    this.cannotBeEvaluated |= saveCannotBeEvaluated;
                 }
-                this.cannotBeEvaluated |= saveCannotBeEvaluated;
-                
+
                 return expression;
             }
         }
