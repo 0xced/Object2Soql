@@ -37,14 +37,14 @@ namespace Object2Soql
         /// Requesting an offset greater than 2,000 results in a NUMBER_OUTSIDE_VALID_RANGE error.
         /// </summary>
         public const int MAX_OFFSET = 2_000;
-        public string ConditionExpression { get; private set; }
+        public string? ConditionExpression { get; private set; }
         public List<string> SelectExpression { get; }
 
-        public string OrderByExpression { get; private set; }
+        public string? OrderByExpression { get; private set; }
         public OrderByOption OrderByFlags { get; private set; }
         public int? Offset { get; private set; }
         public int? Limit { get; private set; }
-        public string GroupByExpression { get; private set; }
+        public string? GroupByExpression { get; private set; }
 
         public Soql()
         {
@@ -54,7 +54,7 @@ namespace Object2Soql
         public Soql<TSource> Where(Expression<Func<TSource, bool>> exp)
         {
             var evaluatedExpression = Evaluator.PartialEval(exp) as LambdaExpression;
-            this.ConditionExpression = WhereVisitor.Visit(evaluatedExpression.Body);
+            this.ConditionExpression = WhereVisitor.Visit(evaluatedExpression!.Body);
             if (this.ConditionExpression.Length > MAX_CONDITION_SIZE)
             {
                 throw new ArgumentException();
@@ -65,11 +65,6 @@ namespace Object2Soql
 
         public Soql<TSource> OrderBy(Expression<Func<TSource, object>> expression, OrderByOption orderByOptions = OrderByOption.Ascending | OrderByOption.NullFirst)
         {
-            if (expression == null)
-            {
-                throw new ArgumentNullException(nameof(expression));
-            }
-
             this.OrderByExpression = SimpleMemberVistor(expression);
             this.OrderByFlags = orderByOptions;
             return this;
@@ -222,14 +217,9 @@ namespace Object2Soql
 
         private string SimpleMemberVistor<TValue>(Expression<Func<TSource, TValue>> exp)
         {
-            if(exp == null)
-            {
-                throw new ArgumentNullException(nameof(exp));
-            }
-
             return exp.Body switch
             {
-                UnaryExpression unaryExpression when unaryExpression.NodeType == ExpressionType.Convert => Reflection.GetMemberQualifiedName(unaryExpression.Operand as MemberExpression),
+                UnaryExpression unaryExpression when unaryExpression.NodeType == ExpressionType.Convert => Reflection.GetMemberQualifiedName((unaryExpression.Operand as MemberExpression)!),
                 MemberExpression memberExpression => Reflection.GetMemberQualifiedName(memberExpression),
                 _ => throw new IlegalExpressionException(exp.Body.NodeType),
             };

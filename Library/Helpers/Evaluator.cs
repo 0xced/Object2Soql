@@ -37,7 +37,7 @@ namespace Object2Soql.Helpers
         /// </summary> 
         class SubtreeEvaluator : ExpressionVisitor
         {
-            HashSet<Expression> candidates;
+            private readonly HashSet<Expression> candidates;
 
             internal SubtreeEvaluator(HashSet<Expression> candidates)
             {
@@ -51,14 +51,11 @@ namespace Object2Soql.Helpers
 
             public override Expression Visit(Expression exp)
             {
-                if (exp == null)
-                {
-                    return null;
-                }
                 if (this.candidates.Contains(exp))
                 {
                     return this.Evaluate(exp);
                 }
+
                 return base.Visit(exp);
             }
 
@@ -80,42 +77,40 @@ namespace Object2Soql.Helpers
         /// </summary> 
         class Nominator : ExpressionVisitor
         {
-            Func<Expression, bool> fnCanBeEvaluated;
-            HashSet<Expression> candidates;
-            bool cannotBeEvaluated;
+            private readonly Func<Expression, bool> fnCanBeEvaluated;
+            private readonly  HashSet<Expression> candidates;
+            private bool cannotBeEvaluated;
 
             internal Nominator(Func<Expression, bool> fnCanBeEvaluated)
             {
+                this.candidates = new HashSet<Expression>();
                 this.fnCanBeEvaluated = fnCanBeEvaluated;
             }
 
             internal HashSet<Expression> Nominate(Expression expression)
             {
-                this.candidates = new HashSet<Expression>();
                 this.Visit(expression);
                 return this.candidates;
             }
 
             public override Expression Visit(Expression expression)
             {
-                if (expression != null)
+                bool saveCannotBeEvaluated = this.cannotBeEvaluated;
+                this.cannotBeEvaluated = false;
+                base.Visit(expression);
+                if (!this.cannotBeEvaluated)
                 {
-                    bool saveCannotBeEvaluated = this.cannotBeEvaluated;
-                    this.cannotBeEvaluated = false;
-                    base.Visit(expression);
-                    if (!this.cannotBeEvaluated)
+                    if (this.fnCanBeEvaluated(expression))
                     {
-                        if (this.fnCanBeEvaluated(expression))
-                        {
-                            this.candidates.Add(expression);
-                        }
-                        else
-                        {
-                            this.cannotBeEvaluated = true;
-                        }
+                        this.candidates.Add(expression);
                     }
-                    this.cannotBeEvaluated |= saveCannotBeEvaluated;
+                    else
+                    {
+                        this.cannotBeEvaluated = true;
+                    }
                 }
+                this.cannotBeEvaluated |= saveCannotBeEvaluated;
+                
                 return expression;
             }
         }
