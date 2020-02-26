@@ -1,11 +1,9 @@
 ﻿using Object2Soql.Helpers;
 using Object2Soql.Tests.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
-namespace SoqlTests.HelperTests
+namespace Object2Soql.Tests.HelperTests
 {
     public class ReflectionTestscs
     {
