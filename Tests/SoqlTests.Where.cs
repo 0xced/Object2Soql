@@ -1,11 +1,12 @@
-﻿using Object2Soql.Entities;
+﻿#pragma warning disable CA1307 // Specify StringComparison
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
+using Object2Soql.Entities;
 using Object2Soql.Tests.Entities;
 using System;
 using System.Globalization;
 using System.Linq;
 using Xunit;
-
-#pragma warning disable CA1307 // Specify StringComparison
 
 namespace Object2Soql.Tests
 {

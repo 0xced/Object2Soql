@@ -131,7 +131,7 @@ namespace Object2Soql
             return this;
         }
 
-        public Soql<TSource> Include<TChild>(Expression<Func<TSource, TChild>> exp) where TChild: class
+        public Soql<TSource> Include<TChild>(Expression<Func<TSource, TChild?>> exp) where TChild: class
         {
             if (!SelectExpression.Any())
             {

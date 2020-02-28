@@ -1,4 +1,6 @@
-﻿using Object2Soql.Helpers;
+﻿#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
+using Object2Soql.Helpers;
 using Object2Soql.Tests.Entities;
 using System;
 using System.Linq.Expressions;

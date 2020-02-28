@@ -27,6 +27,11 @@ namespace Object2Soql.Helpers
             return PartialEval(expression, Evaluator.CanBeEvaluatedLocally);
         }
 
+        /// <summary>
+        /// Evaluates if an expression can or cannot be evaluated.
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         private static bool CanBeEvaluatedLocally(Expression expression)
         {
             return expression.NodeType != ExpressionType.Parameter;

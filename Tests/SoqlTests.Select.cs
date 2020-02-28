@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
+using System.Globalization;
 using Xunit;
 using Object2Soql.Entities;
 using Object2Soql.Tests.Entities;

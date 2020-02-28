@@ -126,7 +126,7 @@ namespace Object2Soql.Visitors
                 return VisitListContainsCall(methodCallExpression);
             }
             // string.Contains however is not static and this we check the operand's type
-            else if (methodCallExpression?.Object?.Type == typeof(string) && methodCallExpression.Method.Name == "Contains")
+            else if (methodCallExpression.Object?.Type == typeof(string) && methodCallExpression.Method.Name == "Contains")
             {
                 return VisitStringContainsCall(methodCallExpression);
             }

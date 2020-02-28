@@ -9,7 +9,7 @@ namespace Object2Soql.Tests.Entities
     {
         public int MyIntProperty { get; set; }
 
-        public string MyStringProperty { get; set; }
+        public string? MyStringProperty { get; set; }
 
         [JsonPropertyName("MyBoolProperty__c")]
         public bool MyBoolProperty { get; set; }
@@ -22,6 +22,6 @@ namespace Object2Soql.Tests.Entities
         public TestEnum MyEnumProperty { get; set; }
 
         [JsonPropertyName("MyChild__r")]
-        public TestClass MyChild { get; set; }
+        public TestClass? MyChild { get; set; }
     }
 }
