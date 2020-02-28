@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoqlLibrary", "Library\SoqlLibrary.csproj", "{347B5119-1438-44E6-8EB4-5D18484A5786}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoqlTests", "Tests\SoqlTests.csproj", "{007F03C9-469F-486A-9C8B-86AEB37F3FCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoqlTests", "Tests\SoqlTests.csproj", "{007F03C9-469F-486A-9C8B-86AEB37F3FCF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F1AA3148-F6EA-4CE4-8981-8A0114333009}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
