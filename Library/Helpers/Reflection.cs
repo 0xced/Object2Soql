@@ -13,11 +13,6 @@ namespace Object2Soql.Helpers
 
         public static string GetMemberQualifiedName(MemberExpression memberExpression)
         {
-            if(memberExpression == null)
-            {
-                throw new ArgumentNullException(nameof(memberExpression));
-            }
-
             var qualifiedNames = new Stack<string>();
             qualifiedNames.Push(GetNameOf(memberExpression.Member));
 

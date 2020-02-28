@@ -27,6 +27,11 @@ namespace Object2Soql.Helpers
             return PartialEval(expression, Evaluator.CanBeEvaluatedLocally);
         }
 
+        /// <summary>
+        /// Evaluates if an expression can or cannot be evaluated.
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         private static bool CanBeEvaluatedLocally(Expression expression)
         {
             return expression.NodeType != ExpressionType.Parameter;
@@ -37,7 +42,7 @@ namespace Object2Soql.Helpers
         /// </summary> 
         class SubtreeEvaluator : ExpressionVisitor
         {
-            HashSet<Expression> candidates;
+            private readonly HashSet<Expression> candidates;
 
             internal SubtreeEvaluator(HashSet<Expression> candidates)
             {
@@ -51,14 +56,11 @@ namespace Object2Soql.Helpers
 
             public override Expression Visit(Expression exp)
             {
-                if (exp == null)
-                {
-                    return null;
-                }
                 if (this.candidates.Contains(exp))
                 {
                     return this.Evaluate(exp);
                 }
+
                 return base.Visit(exp);
             }
 
@@ -80,25 +82,25 @@ namespace Object2Soql.Helpers
         /// </summary> 
         class Nominator : ExpressionVisitor
         {
-            Func<Expression, bool> fnCanBeEvaluated;
-            HashSet<Expression> candidates;
-            bool cannotBeEvaluated;
+            private readonly Func<Expression, bool> fnCanBeEvaluated;
+            private readonly  HashSet<Expression> candidates;
+            private bool cannotBeEvaluated;
 
             internal Nominator(Func<Expression, bool> fnCanBeEvaluated)
             {
+                this.candidates = new HashSet<Expression>();
                 this.fnCanBeEvaluated = fnCanBeEvaluated;
             }
 
             internal HashSet<Expression> Nominate(Expression expression)
             {
-                this.candidates = new HashSet<Expression>();
                 this.Visit(expression);
                 return this.candidates;
             }
 
-            public override Expression Visit(Expression expression)
+            public override Expression? Visit(Expression? expression)
             {
-                if (expression != null)
+                if(expression != null)
                 {
                     bool saveCannotBeEvaluated = this.cannotBeEvaluated;
                     this.cannotBeEvaluated = false;
@@ -116,6 +118,7 @@ namespace Object2Soql.Helpers
                     }
                     this.cannotBeEvaluated |= saveCannotBeEvaluated;
                 }
+
                 return expression;
             }
         }

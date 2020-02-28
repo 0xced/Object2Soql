@@ -18,9 +18,9 @@ namespace Object2Soql.Visitors
 
             return exp.NodeType switch
             {
-                ExpressionType.MemberAccess => new List<string>() { Reflection.GetMemberQualifiedName(exp as MemberExpression) },
-                ExpressionType.New => VisitNew(exp as NewExpression),
-                ExpressionType.Convert => VisitConvert(exp as UnaryExpression),
+                ExpressionType.MemberAccess => new List<string>() { Reflection.GetMemberQualifiedName((exp as MemberExpression)!) },
+                ExpressionType.New => VisitNew((exp as NewExpression)!),
+                ExpressionType.Convert => VisitConvert((exp as UnaryExpression)!),
                 _ => throw new IlegalExpressionException(exp.NodeType),
             };
         }

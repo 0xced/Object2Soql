@@ -1,4 +1,7 @@
-﻿using Object2Soql.Entities;
+﻿#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8603 // Possibly returning a null reference.
+
+using Object2Soql.Entities;
 using Object2Soql.Tests.Entities;
 using System;
 using Xunit;
