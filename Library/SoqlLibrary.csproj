@@ -1,8 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
 	<Nullable>enable</Nullable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Authors>UTurista</Authors>
+	<Company>UTurista</Company>
+	<RepositoryUrl>https://github.com/UTurista/Object2Soql</RepositoryUrl>
+	<Copyright>MIT</Copyright>
+	<Description>Object2Soql is a library to convert strongly typed C# expressions to a SOQL query sintax.</Description>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<Product>Object2Soql</Product>
+	<PackageId>Object2Soql</PackageId>
   </PropertyGroup>
 
 </Project>
