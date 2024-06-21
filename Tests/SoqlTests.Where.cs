@@ -58,7 +58,7 @@ namespace Object2Soql.Tests
         }
 
         [Fact]
-        public void SimpleDateComparision()
+        public void SimpleDateTimeComparision()
         {
             // Arrange
             var expected = SetUpExpectedWhere("MyDateTimeProperty__c = 2020-02-12T12-14-41Z");
@@ -68,6 +68,23 @@ namespace Object2Soql.Tests
                   .From<TestClass>()
                   .Select((x) => x.MyIntProperty)
                   .Where((x) => x.MyDateTimeProperty == new DateTime(2020, 02, 12, 12, 14, 41))
+                  .Build();
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void SimpleDateOnlyComparision()
+        {
+            // Arrange
+            var expected = SetUpExpectedWhere("MyDateOnlyProperty__c = 2020-02-12");
+
+            // Act
+            var actual = Soql
+                  .From<TestClass>()
+                  .Select((x) => x.MyIntProperty)
+                  .Where((x) => x.MyDateOnlyProperty == new DateOnly(2020, 02, 12))
                   .Build();
 
             // Assert

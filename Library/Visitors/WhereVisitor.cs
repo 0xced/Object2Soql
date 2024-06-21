@@ -221,6 +221,10 @@ namespace Object2Soql.Visitors
             {
                 return dateTimeOffset.ToString("yyyy-MM-ddTHH-mm-ssK");
             }
+            else if (value is DateOnly dateOnly)
+            {
+                return dateOnly.ToString("yyyy-MM-dd");
+            }
             else
             {
                 return value.ToString() ?? string.Empty;

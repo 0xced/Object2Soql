@@ -19,6 +19,9 @@ namespace Object2Soql.Tests.Entities
 
         public DateTimeOffset MyDateTimeOffsetProperty { get; set; }
 
+        [JsonPropertyName("MyDateOnlyProperty__c")]
+        public DateOnly MyDateOnlyProperty { get; set; }
+
         public TestEnum MyEnumProperty { get; set; }
 
         [JsonPropertyName("MyChild__r")]
