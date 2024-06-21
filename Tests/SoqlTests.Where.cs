@@ -196,6 +196,23 @@ namespace Object2Soql.Tests
         }
 
         [Fact]
+        public void NullableEnumWithAttributeComparision()
+        {
+            // Arrange
+            var expected = SetUpExpectedWhere("MyNullableEnumProperty__c = 'Case A'");
+
+            // Act
+            var actual = Soql
+                  .From<TestClass>()
+                  .Select((x) => x.MyIntProperty)
+                  .Where((x) => x.MyNullableEnumProperty == TestEnum.CaseA)
+                  .Build();
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
         public void EnumWithoutAttributeComparision()
         {
             // Arrange

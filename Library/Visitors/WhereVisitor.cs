@@ -70,19 +70,19 @@ namespace Object2Soql.Visitors
                 return false;
             }
 
-            if (expression is not UnaryExpression conversion || !conversion.Operand.Type.IsEnum)
+            if (expression is not UnaryExpression conversion || !TryGetEnumType(conversion, out var enumType))
             {
                 fixedValue = value;
                 return false;
             }
 
-            var enumName = conversion.Operand.Type.GetEnumName(enumInt);
+            var enumName = enumType.GetEnumName(enumInt);
             if(enumName == null)
             {
                 fixedValue = value;
                 return false;
             }
-            var enumAttrs = conversion.Operand.Type.GetField(enumName)?.GetCustomAttributes<EnumMemberAttribute>().FirstOrDefault();
+            var enumAttrs = enumType.GetField(enumName)?.GetCustomAttributes<EnumMemberAttribute>().FirstOrDefault();
             if (enumAttrs == null)
             {
                 fixedValue = $"'{enumName}'";
@@ -93,6 +93,12 @@ namespace Object2Soql.Visitors
             }
             
             return true;
+        }
+
+        private static bool TryGetEnumType(UnaryExpression conversion, out Type enumType)
+        {
+            enumType = Nullable.GetUnderlyingType(conversion.Operand.Type) ?? conversion.Operand.Type;
+            return enumType.IsEnum;
         }
 
         private static string VisitConstant(ConstantExpression constantExpression)

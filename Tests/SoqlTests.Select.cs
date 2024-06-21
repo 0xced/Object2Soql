@@ -108,7 +108,7 @@ namespace Object2Soql.Tests
         public void NoSelectTest()
         {
             // Arrange
-            var expected = SetUpExpectedSelect("MyIntProperty, MyStringProperty, MyBoolProperty__c, MyDateTimeProperty__c, MyDateTimeOffsetProperty, MyDateOnlyProperty__c, MyEnumProperty");
+            var expected = SetUpExpectedSelect("MyIntProperty, MyStringProperty, MyBoolProperty__c, MyDateTimeProperty__c, MyDateTimeOffsetProperty, MyDateOnlyProperty__c, MyEnumProperty, MyNullableEnumProperty__c");
 
             // Act 
             var actual = Soql
@@ -123,7 +123,7 @@ namespace Object2Soql.Tests
         public void IncludeWithNoSelectTest()
         {
             // Arrange
-            var expected = SetUpExpectedSelect("MyIntProperty, MyStringProperty, MyBoolProperty__c, MyDateTimeProperty__c, MyDateTimeOffsetProperty, MyDateOnlyProperty__c, MyEnumProperty, MyChild__r.MyChild__r.MyIntProperty, MyChild__r.MyChild__r.MyStringProperty, MyChild__r.MyChild__r.MyBoolProperty__c, MyChild__r.MyChild__r.MyDateTimeProperty__c, MyChild__r.MyChild__r.MyDateTimeOffsetProperty, MyChild__r.MyChild__r.MyDateOnlyProperty__c, MyChild__r.MyChild__r.MyEnumProperty");
+            var expected = SetUpExpectedSelect("MyIntProperty, MyStringProperty, MyBoolProperty__c, MyDateTimeProperty__c, MyDateTimeOffsetProperty, MyDateOnlyProperty__c, MyEnumProperty, MyNullableEnumProperty__c, MyChild__r.MyChild__r.MyIntProperty, MyChild__r.MyChild__r.MyStringProperty, MyChild__r.MyChild__r.MyBoolProperty__c, MyChild__r.MyChild__r.MyDateTimeProperty__c, MyChild__r.MyChild__r.MyDateTimeOffsetProperty, MyChild__r.MyChild__r.MyDateOnlyProperty__c, MyChild__r.MyChild__r.MyEnumProperty, MyChild__r.MyChild__r.MyNullableEnumProperty__c");
 
             // Act 
             var actual = Soql
@@ -139,7 +139,7 @@ namespace Object2Soql.Tests
         public void IncludeWithSelectTest()
         {
             // Arrange
-            var expected = SetUpExpectedSelect("MyBoolProperty__c, MyChild__r.MyChild__r.MyIntProperty, MyChild__r.MyChild__r.MyStringProperty, MyChild__r.MyChild__r.MyBoolProperty__c, MyChild__r.MyChild__r.MyDateTimeProperty__c, MyChild__r.MyChild__r.MyDateTimeOffsetProperty, MyChild__r.MyChild__r.MyDateOnlyProperty__c, MyChild__r.MyChild__r.MyEnumProperty");
+            var expected = SetUpExpectedSelect("MyBoolProperty__c, MyChild__r.MyChild__r.MyIntProperty, MyChild__r.MyChild__r.MyStringProperty, MyChild__r.MyChild__r.MyBoolProperty__c, MyChild__r.MyChild__r.MyDateTimeProperty__c, MyChild__r.MyChild__r.MyDateTimeOffsetProperty, MyChild__r.MyChild__r.MyDateOnlyProperty__c, MyChild__r.MyChild__r.MyEnumProperty, MyChild__r.MyChild__r.MyNullableEnumProperty__c");
 
             // Act 
             var actual = Soql

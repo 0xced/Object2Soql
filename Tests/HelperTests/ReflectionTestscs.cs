@@ -20,6 +20,7 @@ namespace Object2Soql.Tests.HelperTests
                 "MyDateTimeOffsetProperty",
                 "MyDateOnlyProperty__c",
                 "MyEnumProperty",
+                "MyNullableEnumProperty__c",
             };
 
             // Act
