@@ -18,6 +18,7 @@ namespace Object2Soql.Tests.HelperTests
                 "MyBoolProperty__c",
                 "MyDateTimeProperty__c",
                 "MyDateTimeOffsetProperty",
+                "MyDateOnlyProperty__c",
                 "MyEnumProperty",
             };
 
