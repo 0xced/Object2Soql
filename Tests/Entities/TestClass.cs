@@ -24,6 +24,9 @@ namespace Object2Soql.Tests.Entities
 
         public TestEnum MyEnumProperty { get; set; }
 
+        [JsonPropertyName("MyNullableEnumProperty__c")]
+        public TestEnum? MyNullableEnumProperty { get; set; }
+
         [JsonPropertyName("MyChild__r")]
         public TestClass? MyChild { get; set; }
     }
