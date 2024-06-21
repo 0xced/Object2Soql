@@ -78,7 +78,7 @@ namespace Object2Soql.Tests
         public void StringInList()
         {
             // Arrange
-            var values = new string[] { "value_underscopre_a", "value space b" };
+            var values = new[] { "value_underscopre_a", "value space b" };
             var expected = SetUpExpectedWhere("MyStringProperty IN ('value_underscopre_a', 'value space b')");
 
             // Act

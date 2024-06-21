@@ -17,7 +17,7 @@ namespace Object2Soql.Helpers
             qualifiedNames.Push(GetNameOf(memberExpression.Member));
 
             var parentExpression = memberExpression.Expression;
-            while (parentExpression != null && parentExpression is MemberExpression parentMemberExpression)
+            while (parentExpression is MemberExpression parentMemberExpression)
             {
                 qualifiedNames.Push(GetNameOf(parentMemberExpression.Member));
                 parentExpression = parentMemberExpression.Expression;
