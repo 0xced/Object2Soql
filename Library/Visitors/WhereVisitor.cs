@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -13,28 +14,28 @@ namespace Object2Soql.Visitors
     {
         public static readonly char SPACE = ' ';
 
-        public static string Visit(Expression exp)
+        public static string Visit(Expression? exp)
         {
             if (exp == null)
             {
                 return string.Empty;
             }
 
-            return exp.NodeType switch
+            return exp switch
             {
-                ExpressionType.Convert => VisitUnary((exp as UnaryExpression)!),
-                ExpressionType.AndAlso => $"({VisitBinary((exp as BinaryExpression)!, "AND")})",
-                ExpressionType.OrElse => $"({VisitBinary((exp as BinaryExpression)!, "OR")})",
-                ExpressionType.LessThan => VisitBinary((exp as BinaryExpression)!, "<"),
-                ExpressionType.LessThanOrEqual => VisitBinary((exp as BinaryExpression)!, "<="),
-                ExpressionType.GreaterThan => VisitBinary((exp as BinaryExpression)!, ">"),
-                ExpressionType.GreaterThanOrEqual => VisitBinary((exp as BinaryExpression)!, ">="),
-                ExpressionType.Equal => VisitBinary((exp as BinaryExpression)!, "="),
-                ExpressionType.NotEqual => VisitBinary((exp as BinaryExpression)!, "!="),
-                ExpressionType.ExclusiveOr => VisitBinary((exp as BinaryExpression)!, ""),
-                ExpressionType.Constant => VisitConstant((exp as ConstantExpression)!),
-                ExpressionType.MemberAccess => VisitMemberAccess((exp as MemberExpression)!),
-                ExpressionType.Call => VisitMethodCall((exp as MethodCallExpression)!),
+                UnaryExpression expression when exp.NodeType == ExpressionType.Convert => VisitUnary(expression),
+                BinaryExpression expression when exp.NodeType == ExpressionType.AndAlso => $"({VisitBinary(expression, "AND")})",
+                BinaryExpression expression when exp.NodeType == ExpressionType.OrElse => $"({VisitBinary(expression, "OR")})",
+                BinaryExpression expression when exp.NodeType == ExpressionType.LessThan => VisitBinary(expression, "<"),
+                BinaryExpression expression when exp.NodeType == ExpressionType.LessThanOrEqual => VisitBinary(expression, "<="),
+                BinaryExpression expression when exp.NodeType == ExpressionType.GreaterThan => VisitBinary(expression, ">"),
+                BinaryExpression expression when exp.NodeType == ExpressionType.GreaterThanOrEqual => VisitBinary(expression, ">="),
+                BinaryExpression expression when exp.NodeType == ExpressionType.Equal => VisitBinary(expression, "="),
+                BinaryExpression expression when exp.NodeType == ExpressionType.NotEqual => VisitBinary(expression, "!="),
+                BinaryExpression expression when exp.NodeType == ExpressionType.ExclusiveOr => VisitBinary(expression, ""),
+                ConstantExpression expression => VisitConstant(expression),
+                MemberExpression expression => VisitMemberAccess(expression),
+                MethodCallExpression expression => VisitMethodCall(expression),
                 _ => throw new IlegalExpressionException(exp.NodeType),
             };
         }
@@ -44,21 +45,21 @@ namespace Object2Soql.Visitors
             return Visit(u.Operand);
         }
 
-        private static string VisitBinary(BinaryExpression binaryExpession, string simbol)
+        private static string VisitBinary(BinaryExpression binaryExpression, string symbol)
         {
-            var left = Visit(binaryExpession.Left);
-            var right = Visit(binaryExpession.Right);
+            var left = Visit(binaryExpression.Left);
+            var right = Visit(binaryExpression.Right);
 
-            if (TryGetEnum(binaryExpession.Left, right, out var fixedRight))
+            if (TryGetEnum(binaryExpression.Left, right, out var fixedRight))
             {
                 right = fixedRight;
             }
-            else if (TryGetEnum(binaryExpession.Right, left, out var fixedLeft))
+            else if (TryGetEnum(binaryExpression.Right, left, out var fixedLeft))
             {
                 left = fixedLeft;
             }
 
-            return $"{left} {simbol} {right}";
+            return $"{left} {symbol} {right}";
         }
 
         private static bool TryGetEnum(Expression expression, string value, out string fixedValue)
@@ -69,7 +70,7 @@ namespace Object2Soql.Visitors
                 return false;
             }
 
-            if (!(expression is UnaryExpression conversion) || !conversion.Operand.Type.IsEnum)
+            if (expression is not UnaryExpression conversion || !conversion.Operand.Type.IsEnum)
             {
                 fixedValue = value;
                 return false;
@@ -96,9 +97,7 @@ namespace Object2Soql.Visitors
 
         private static string VisitConstant(ConstantExpression constantExpression)
         {
-            var enumerable = constantExpression.Value as System.Collections.IEnumerable;
-
-            if (enumerable == null || constantExpression.Value is string)
+            if (constantExpression.Value is not IEnumerable enumerable || constantExpression.Value is string)
             {
                 return GetValue(constantExpression.Value);
             }
@@ -121,24 +120,24 @@ namespace Object2Soql.Visitors
         {
             // if the object operand is null then this is a static method and is likely to be
             // the Linq's Contains extension
-            if (methodCallExpression.Object== null && methodCallExpression.Method.Name == "Contains")
+            if (methodCallExpression.Object== null && methodCallExpression.Method.Name == nameof(string.Contains))
             {
                 return VisitListContainsCall(methodCallExpression);
             }
             // string.Contains however is not static and this we check the operand's type
-            else if (methodCallExpression.Object?.Type == typeof(string) && methodCallExpression.Method.Name == "Contains")
+            else if (methodCallExpression.Object?.Type == typeof(string) && methodCallExpression.Method.Name == nameof(string.Contains))
             {
                 return VisitStringContainsCall(methodCallExpression);
             }
-            else if (methodCallExpression.Method.Name == "StartsWith")
+            else if (methodCallExpression.Method.Name == nameof(string.StartsWith))
             {
                 return VisitStartsWithCall(methodCallExpression);
             }
-            else if (methodCallExpression.Method.Name == "EndsWith")
+            else if (methodCallExpression.Method.Name == nameof(string.EndsWith))
             {
                 return VisitEndsWithCall(methodCallExpression);
             }
-            else if (methodCallExpression.Method.Name == "Equals")
+            else if (methodCallExpression.Method.Name == nameof(string.Equals))
             {
                 return VisitEqualsCall(methodCallExpression);
             }
@@ -235,10 +234,7 @@ namespace Object2Soql.Visitors
         /// <returns>The escaped string.</returns>
         private static string Escape(string input)
         {
-            if(input == null)
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
+            ArgumentNullException.ThrowIfNull(input);
 
             return input.Replace(@"\", @"\\").Replace("'", @"\'");
         }

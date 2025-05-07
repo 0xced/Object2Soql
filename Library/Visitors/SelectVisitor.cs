@@ -1,7 +1,6 @@
 ﻿using Object2Soql.Entities;
 using Object2Soql.Helpers;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 
@@ -9,18 +8,18 @@ namespace Object2Soql.Visitors
 {
     public static class SelectVisitor
     {
-        public static IEnumerable<string> Visit(Expression exp)
+        public static IEnumerable<string> Visit(Expression? exp)
         {
             if (exp == null)
             {
-                return Enumerable.Empty<string>();
+                return [];
             }
 
-            return exp.NodeType switch
+            return exp switch
             {
-                ExpressionType.MemberAccess => new List<string>() { Reflection.GetMemberQualifiedName((exp as MemberExpression)!) },
-                ExpressionType.New => VisitNew((exp as NewExpression)!),
-                ExpressionType.Convert => VisitConvert((exp as UnaryExpression)!),
+                MemberExpression expression => new List<string> { Reflection.GetMemberQualifiedName(expression) },
+                NewExpression expression => VisitNew(expression),
+                UnaryExpression expression => VisitConvert(expression),
                 _ => throw new IlegalExpressionException(exp.NodeType),
             };
         }

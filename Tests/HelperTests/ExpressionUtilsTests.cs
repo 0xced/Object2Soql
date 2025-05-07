@@ -18,7 +18,7 @@ namespace Object2Soql.Tests.HelperTests
             Expression<Func<TestClass, bool>> expression = (x) => x.MyBoolProperty;
 
             // Act
-            var actual = Reflection.GetMemberQualifiedName((expression.Body as MemberExpression)!);
+            var actual = Reflection.GetMemberQualifiedName((MemberExpression)expression.Body);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -32,7 +32,7 @@ namespace Object2Soql.Tests.HelperTests
             Expression<Func<TestClass, bool>> expression = (x) => x.MyChild.MyBoolProperty;
 
             // Act
-            var actual = Reflection.GetMemberQualifiedName((expression.Body as MemberExpression)!);
+            var actual = Reflection.GetMemberQualifiedName((MemberExpression)expression.Body);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -46,7 +46,7 @@ namespace Object2Soql.Tests.HelperTests
             Expression<Func<TestClass, bool>> expression = (x) => x.MyChild.MyChild.MyBoolProperty;
 
             // Act
-            var actual = Reflection.GetMemberQualifiedName((expression.Body as MemberExpression)!);
+            var actual = Reflection.GetMemberQualifiedName((MemberExpression)expression.Body);
 
             // Assert
             Assert.Equal(expected, actual);

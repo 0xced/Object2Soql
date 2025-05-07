@@ -7,22 +7,22 @@ namespace Object2Soql.Helpers
     public static class Evaluator
     {
         /// <summary> 
-        /// Performs evaluation & replacement of independent sub-trees 
+        /// Performs evaluation &amp; replacement of independent sub-trees
         /// </summary> 
         /// <param name="expression">The root of the expression tree.</param>
         /// <param name="fnCanBeEvaluated">A function that decides whether a given expression node can be part of the local function.</param>
         /// <returns>A new tree with sub-trees evaluated and replaced.</returns> 
-        public static Expression PartialEval(Expression expression, Func<Expression, bool> fnCanBeEvaluated)
+        public static Expression? PartialEval(Expression expression, Func<Expression, bool> fnCanBeEvaluated)
         {
             return new SubtreeEvaluator(new Nominator(fnCanBeEvaluated).Nominate(expression)).Eval(expression);
         }
 
         /// <summary> 
-        /// Performs evaluation & replacement of independent sub-trees 
+        /// Performs evaluation &amp; replacement of independent sub-trees
         /// </summary> 
         /// <param name="expression">The root of the expression tree.</param>
         /// <returns>A new tree with sub-trees evaluated and replaced.</returns> 
-        public static Expression PartialEval(Expression expression)
+        public static Expression? PartialEval(Expression expression)
         {
             return PartialEval(expression, Evaluator.CanBeEvaluatedLocally);
         }
@@ -38,7 +38,7 @@ namespace Object2Soql.Helpers
         }
 
         /// <summary> 
-        /// Evaluates & replaces sub-trees when first candidate is reached (top-down) 
+        /// Evaluates &amp; replaces sub-trees when first candidate is reached (top-down)
         /// </summary> 
         class SubtreeEvaluator : ExpressionVisitor
         {
@@ -49,14 +49,14 @@ namespace Object2Soql.Helpers
                 this.candidates = candidates;
             }
 
-            internal Expression Eval(Expression exp)
+            internal Expression? Eval(Expression exp)
             {
                 return this.Visit(exp);
             }
 
-            public override Expression Visit(Expression exp)
+            public override Expression? Visit(Expression? exp)
             {
-                if (this.candidates.Contains(exp))
+                if (exp != null && this.candidates.Contains(exp))
                 {
                     return this.Evaluate(exp);
                 }

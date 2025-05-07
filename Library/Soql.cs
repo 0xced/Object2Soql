@@ -54,10 +54,10 @@ namespace Object2Soql
         public Soql<TSource> Where(Expression<Func<TSource, bool>> exp)
         {
             var evaluatedExpression = Evaluator.PartialEval(exp) as LambdaExpression;
-            this.ConditionExpression = WhereVisitor.Visit(evaluatedExpression!.Body);
+            this.ConditionExpression = WhereVisitor.Visit(evaluatedExpression?.Body);
             if (this.ConditionExpression.Length > MAX_CONDITION_SIZE)
             {
-                throw new ArgumentException();
+                throw new ArgumentException($"The condition is too long: {ConditionExpression.Length} but the maximum allowed is {MAX_CONDITION_SIZE}.", nameof(exp));
             }
 
             return this;
@@ -65,18 +65,16 @@ namespace Object2Soql
 
         public Soql<TSource> OrderBy(Expression<Func<TSource, object>> expression, OrderByOption orderByOptions = OrderByOption.Ascending | OrderByOption.NullFirst)
         {
-            this.OrderByExpression = SimpleMemberVistor(expression);
+            this.OrderByExpression = SimpleMemberVisitor(expression);
             this.OrderByFlags = orderByOptions;
             return this;
         }
-        public Soql<TSource> ThenBy(Expression<Func<TSource, object>> exression)
-        {
-            if (exression == null)
-            {
-                throw new ArgumentNullException(nameof(exression));
-            }
 
-            var orderBy = SimpleMemberVistor(exression);
+        public Soql<TSource> ThenBy(Expression<Func<TSource, object>> expression)
+        {
+            ArgumentNullException.ThrowIfNull(expression);
+
+            var orderBy = SimpleMemberVisitor(expression);
             if (string.IsNullOrEmpty(OrderByExpression))
             {
                 this.OrderByExpression = orderBy;
@@ -89,12 +87,11 @@ namespace Object2Soql
             return this;
         }
 
-
         public Soql<TSource> Take(int nElements)
         {
             if (nElements <= 0 )
             {
-                throw new ArgumentOutOfRangeException("nElements must be greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(nElements), "nElements must be greater than 0.");
             }
 
             this.Limit = nElements;
@@ -103,9 +100,9 @@ namespace Object2Soql
 
         public Soql<TSource> Skip(int nElements)
         {
-            if (nElements <= 0 || nElements > MAX_OFFSET)
+            if (nElements is <= 0 or > MAX_OFFSET)
             {
-                throw new ArgumentOutOfRangeException("nElements must be between 0 and MAX_OFFSET.");
+                throw new ArgumentOutOfRangeException(nameof(nElements), "nElements must be between 0 and MAX_OFFSET.");
             }
 
             this.Offset = nElements;
@@ -114,16 +111,11 @@ namespace Object2Soql
 
         public Soql<TSource> GroupBy(Expression<Func<TSource, object>> exp)
         {
-            if (exp == null)
-            {
-                throw new ArgumentNullException(nameof(exp));
-            }
+            ArgumentNullException.ThrowIfNull(exp);
 
-            this.GroupByExpression = SimpleMemberVistor(exp);
+            this.GroupByExpression = SimpleMemberVisitor(exp);
             return this; 
         }
-
-      
 
         public Soql<TSource> Select(Expression<Func<TSource, object>> exp)
         {
@@ -138,7 +130,7 @@ namespace Object2Soql
                 SelectExpression.AddRange(Reflection.Describe(typeof(TSource)));
             }
 
-            var child = SimpleMemberVistor(exp);
+            var child = SimpleMemberVisitor(exp);
             this.SelectExpression.AddRange(Reflection.Describe(exp.Body.Type).Select(x => $"{child}.{x}"));
             return this;
         }
@@ -215,11 +207,11 @@ namespace Object2Soql
             return query.ToString();
         }
 
-        private string SimpleMemberVistor<TValue>(Expression<Func<TSource, TValue>> exp)
+        private static string SimpleMemberVisitor<TValue>(Expression<Func<TSource, TValue>> exp)
         {
             return exp.Body switch
             {
-                UnaryExpression unaryExpression when unaryExpression.NodeType == ExpressionType.Convert => Reflection.GetMemberQualifiedName((unaryExpression.Operand as MemberExpression)!),
+                UnaryExpression { NodeType: ExpressionType.Convert, Operand: MemberExpression memberExpression } => Reflection.GetMemberQualifiedName(memberExpression),
                 MemberExpression memberExpression => Reflection.GetMemberQualifiedName(memberExpression),
                 _ => throw new IlegalExpressionException(exp.Body.NodeType),
             };
